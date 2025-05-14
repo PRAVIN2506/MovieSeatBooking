@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Movie Booking - Select Seats</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: #fff;
+          margin: 0;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 40px 20px;
+        }
+        h1 {
+          margin-bottom: 10px;
+          text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+        .movie-title {
+          margin-bottom: 30px;
+          font-size: 24px;
+          font-weight: 700;
+        }
+        .screen {
+          width: 80%;
+          height: 25px;
+          background: #ccc;
+          color: #333;
+          margin: 0 auto 25px;
+          border-radius: 10px;
+          text-align: center;
+          line-height: 25px;
+          font-weight: 600;
+          box-shadow: inset 0 3px 5px rgba(255,255,255,0.7);
+        }
+        .seats {
+          display: grid;
+          grid-template-columns: repeat(8, 40px);
+          gap: 12px;
+          justify-content: center;
+          margin-bottom: 20px;
+        }
+        .seat {
+          width: 40px;
+          height: 40px;
+          background-color: #444451;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        .seat.selected {
+          background-color: #6feaf6;
+        }
+        .seat.occupied {
+          background-color: #fff;
+          cursor: not-allowed;
+        }
+        .legend {
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          margin-bottom: 25px;
+        }
+        .legend div {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+        }
+        .legend .box {
+          width: 20px;
+          height: 20px;
+          border-radius: 4px;
+        }
+        .legend .available {
+          background-color: #444451;
+        }
+        .legend .selected {
+          background-color: #6feaf6;
+        }
+        .legend .occupied {
+          background-color: #fff;
+        }
+        .summary {
+          font-size: 18px;
+          margin-bottom: 30px;
+        }
+        button {
+          background-color: #6feaf6;
+          border: none;
+          border-radius: 8px;
+          padding: 12px 30px;
+          font-weight: 600;
+          color: #333;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        button:hover {
+          background-color: #55c5d6;
+        }
+    </style>
+</head>
+<body>
+<h1>Select Your Seats</h1>
+<div class="movie-title" id="movieTitle">Loading...</div>
+<div class="screen">Screen This Way</div>
+
+<div class="legend">
+    <div><div class="box available"></div> Available</div>
+    <div><div class="box selected"></div> Selected</div>
+    <div><div class="box occupied"></div> Occupied</div>
+</div>
+
+<div class="seats" id="seatContainer">
+<<<<<<< HEAD
+    <!-- Seats will be generated here -->
+=======
+
+>>>>>>> 1672aae (completed)
+</div>
+
+<div class="summary" id="summary">Selected Seats: 0 | Total Amount: ₹0</div>
+
+<button id="checkoutBtn" disabled>Proceed to Checkout</button>
+
+<script>
+<<<<<<< HEAD
+    // Movie price mapping (₹)
+=======
+
+>>>>>>> 1672aae (completed)
+    const moviePrices = {
+      "1": 300, // Avengers
+      "2": 150, // Ice Age
+      "3": 250, // Avatar
+      "4": 200  // Kung Fu Panda
+    };
+
+<<<<<<< HEAD
+    // Example occupied seats (demo)
+=======
+
+>>>>>>> 1672aae (completed)
+    const occupiedSeatsIndices = [3, 7, 12, 14, 22];
+
+    const seatContainer = document.getElementById('seatContainer');
+    const movieTitleElem = document.getElementById('movieTitle');
+    const summaryElem = document.getElementById('summary');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get('movieId');
+    const movieTitle = urlParams.get('movieTitle');
+
+<<<<<<< HEAD
+    // Price per seat based on selected movie ID; default to 150 if unknown
+=======
+
+>>>>>>> 1672aae (completed)
+    const seatPrice = moviePrices[movieId] || 150;
+
+    movieTitleElem.innerText = movieTitle ? movieTitle : 'Movie';
+
+    const totalSeats = 40;
+    let selectedSeats = new Set();
+
+    function createSeat(index) {
+      const seat = document.createElement('div');
+      seat.classList.add('seat');
+      if (occupiedSeatsIndices.includes(index)) {
+        seat.classList.add('occupied');
+      }
+      seat.addEventListener('click', () => {
+        if (seat.classList.contains('occupied')) return;
+        if (seat.classList.contains('selected')) {
+          seat.classList.remove('selected');
+          selectedSeats.delete(index);
+        } else {
+          seat.classList.add('selected');
+          selectedSeats.add(index);
+        }
+        updateSummary();
+      });
+      return seat;
+    }
+
+    function renderSeats() {
+      seatContainer.innerHTML = '';
+      for (let i = 0; i < totalSeats; i++) {
+        seatContainer.appendChild(createSeat(i));
+      }
+    }
+
+    function updateSummary() {
+      const count = selectedSeats.size;
+      const total = count * seatPrice;
+      summaryElem.textContent = `Selected Seats: ${count} | Total Amount: ₹${total}`;
+      checkoutBtn.disabled = count === 0;
+    }
+
+    checkoutBtn.addEventListener('click', () => {
+      if (selectedSeats.size === 0) return;
+      const params = new URLSearchParams();
+      params.set('movieId', movieId);
+      params.set('movieTitle', movieTitle);
+      params.set('seats', Array.from(selectedSeats).join(','));
+      params.set('total', selectedSeats.size * seatPrice);
+      window.location.href = 'checkout.html?' + params.toString();
+    });
+
+<<<<<<< HEAD
+    // Initialize seats rendering and summary
+=======
+>>>>>>> 1672aae (completed)
+    renderSeats();
+    updateSummary();
+</script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Movie Booking - Checkout</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          margin: 0;
+          color: #fff;
+          min-height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 30px;
+        }
+        .container {
+          background: rgba(0, 0, 0, 0.75);
+          padding: 30px 40px;
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+          max-width: 400px;
+          width: 100%;
+        }
+        h1 {
+          margin-bottom: 20px;
+          text-align: center;
+          color: #f0f0f0;
+        }
+        .summary {
+          margin-bottom: 25px;
+          border-bottom: 1px solid #876dd9;
+          padding-bottom: 15px;
+        }
+        .summary p {
+          margin: 8px 0;
+          font-weight: 600;
+          color: #ddd;
+        }
+        label {
+          display: block;
+          margin-bottom: 6px;
+          font-weight: 600;
+          color: #ccc;
+        }
+        input[type="text"],
+        input[type="email"] {
+          width: 100%;
+          padding: 10px 12px;
+          margin-bottom: 18px;
+          border: 1px solid #876dd9;
+          border-radius: 6px;
+          box-sizing: border-box;
+          font-size: 15px;
+          background: #2e2a57;
+          color: #fff;
+          transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+          border-color: #b9a4ff;
+          outline: none;
+        }
+        button {
+          width: 100%;
+          background-color: #876dd9;
+          border: none;
+          border-radius: 8px;
+          padding: 14px;
+          font-weight: 700;
+          font-size: 16px;
+          color: #fff;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        button:hover {
+          background-color: #6e58c6;
+        }
+        .success-message {
+          display: none;
+          margin-top: 20px;
+          padding: 12px;
+          border-radius: 6px;
+          background-color: #3b9d3b;
+          color: #e5f7e5;
+          font-weight: 600;
+          text-align: center;
+        }
+        .error-message {
+          color: #ff6b6b;
+          font-weight: 600;
+          margin-bottom: 15px;
+          display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Checkout</h1>
+    <div class="summary" id="summary">
+<<<<<<< HEAD
+        <!-- Booking details will appear here -->
+=======
+
+>>>>>>> 1672aae (completed)
+    </div>
+
+    <div class="error-message" id="errorMsg"></div>
+
+    <form id="checkoutForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Your full name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Your email address" required />
+
+        <button type="submit">Confirm Booking</button>
+    </form>
+
+    <div class="success-message" id="successMsg">Booking successful! Thank you.</div>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieTitle = urlParams.get('movieTitle') || 'Movie';
+    const seats = urlParams.get('seats') || '';
+    const total = urlParams.get('total') || '0';
+
+    const summaryDiv = document.getElementById('summary');
+    const checkoutForm = document.getElementById('checkoutForm');
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
+
+    summaryDiv.innerHTML = `
+      <p><strong>Movie:</strong> ${movieTitle}</p>
+      <p><strong>Seats:</strong> ${seats ? seats.split(',').map(s => parseInt(s) + 1).join(', ') : 'None'}</p>
+      <p><strong>Total Amount:</strong> ₹${total}</p>
+    `;
+
+    function validateEmail(email) {
+      const re = /^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/;
+      return re.test(email.toLowerCase());
+    }
+
+    checkoutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+      successMsg.style.display = 'none';
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      if (!name || !email) {
+        errorMsg.textContent = 'Please fill in all required fields.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        errorMsg.textContent = 'Please enter a valid email address.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      const bookingData = {
+        movieTitle,
+        seats,
+        total,
+        name,
+        email
+      };
+
+      fetch('BookingServlet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bookingData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          successMsg.style.display = 'block';
+          checkoutForm.reset();
+        } else {
+          errorMsg.textContent = data.message || 'Booking failed. Please try again.';
+          errorMsg.style.display = 'block';
+        }
+      })
+      .catch(() => {
+        errorMsg.textContent = 'Server error. Please try again later.';
+        errorMsg.style.display = 'block';
+      });
+    });
+</script>
+</body>
+</html>

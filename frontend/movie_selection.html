@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Movie Booking - Select Movie</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: linear-gradient(135deg, #11998e, #38ef7d);
+          margin: 0;
+          color: #fff;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 40px 20px;
+        }
+        h1 {
+          font-weight: 700;
+          margin-bottom: 30px;
+          text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .movie-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 24px;
+          width: 100%;
+          max-width: 720px;
+        }
+        .movie-card {
+          background: rgba(0,0,0,0.4);
+          border-radius: 14px;
+          padding: 16px;
+          box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+          text-align: center;
+          cursor: pointer;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          user-select: none;
+        }
+        .movie-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+        }
+        .movie-poster {
+          width: 100%;
+          border-radius: 10px;
+          height: 220px;
+          background-position: center;
+          background-size: cover;
+          margin-bottom: 12px;
+        }
+        .movie-title {
+          font-weight: 600;
+          font-size: 18px;
+          color: #f0f0f0;
+        }
+        .footer {
+          margin-top: auto;
+          padding: 20px;
+          font-size: 14px;
+          opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+<h1>Select a Movie</h1>
+<div class="movie-grid" id="movieGrid">
+<<<<<<< HEAD
+    <!-- Movie cards inserted here -->
+=======
+
+>>>>>>> 1672aae (completed)
+</div>
+<div class="footer">
+    Please select a movie to proceed to seat selection.
+</div>
+
+<script>
+    // Array of four famous movies with poster URLs
+    const movies = [
+      {
+        id: 1,
+        title: "Avengers",
+        poster: "https://m.media-amazon.com/images/I/81ExhpBEbHL._AC_SY679_.jpg"
+      },
+      {
+        id: 2,
+        title: "Ice Age",
+        poster: "https://m.media-amazon.com/images/I/71PfZveUz3L._AC_SY679_.jpg"
+      },
+      {
+        id: 3,
+        title: "Avatar",
+        poster: "https://m.media-amazon.com/images/I/61O+Co8UufL._AC_SY679_.jpg"
+      },
+      {
+        id: 4,
+        title: "Kung Fu Panda",
+        poster: "https://m.media-amazon.com/images/I/71GfprVeMyL._AC_SY679_.jpg"
+      }
+    ];
+
+    const moviesGrid = document.getElementById('movieGrid');
+
+    function createMovieCard(movie) {
+      const card = document.createElement('div');
+      card.className = 'movie-card';
+      card.dataset.movieId = movie.id;
+      card.dataset.movieTitle = movie.title;
+
+      const poster = document.createElement('div');
+      poster.className = 'movie-poster';
+      poster.style.backgroundImage = `url('${movie.poster}')`;
+
+      const title = document.createElement('div');
+      title.className = 'movie-title';
+      title.textContent = movie.title;
+
+      card.appendChild(poster);
+      card.appendChild(title);
+
+      card.addEventListener('click', () => {
+        const params = new URLSearchParams();
+        params.set('movieId', movie.id);
+        params.set('movieTitle', movie.title);
+        window.location.href = 'seat_selection.html?' + params.toString();
+      });
+
+      return card;
+    }
+
+    function renderMovies() {
+      moviesGrid.innerHTML = '';
+      movies.forEach(movie => {
+        const card = createMovieCard(movie);
+        moviesGrid.appendChild(card);
+      });
+    }
+
+    renderMovies();
+</script>
+</body>
+</html>
