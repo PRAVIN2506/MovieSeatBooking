@@ -116,11 +116,7 @@
 </div>
 
 <div class="seats" id="seatContainer">
-<<<<<<< HEAD
-    <!-- Seats will be generated here -->
-=======
 
->>>>>>> 1672aae (completed)
 </div>
 
 <div class="summary" id="summary">Selected Seats: 0 | Total Amount: ₹0</div>
@@ -128,11 +124,7 @@
 <button id="checkoutBtn" disabled>Proceed to Checkout</button>
 
 <script>
-<<<<<<< HEAD
-    // Movie price mapping (₹)
-=======
 
->>>>>>> 1672aae (completed)
     const moviePrices = {
       "1": 300, // Avengers
       "2": 150, // Ice Age
@@ -140,11 +132,6 @@
       "4": 200  // Kung Fu Panda
     };
 
-<<<<<<< HEAD
-    // Example occupied seats (demo)
-=======
-
->>>>>>> 1672aae (completed)
     const occupiedSeatsIndices = [3, 7, 12, 14, 22];
 
     const seatContainer = document.getElementById('seatContainer');
@@ -156,11 +143,6 @@
     const movieId = urlParams.get('movieId');
     const movieTitle = urlParams.get('movieTitle');
 
-<<<<<<< HEAD
-    // Price per seat based on selected movie ID; default to 150 if unknown
-=======
-
->>>>>>> 1672aae (completed)
     const seatPrice = moviePrices[movieId] || 150;
 
     movieTitleElem.innerText = movieTitle ? movieTitle : 'Movie';
@@ -212,10 +194,6 @@
       window.location.href = 'checkout.html?' + params.toString();
     });
 
-<<<<<<< HEAD
-    // Initialize seats rendering and summary
-=======
->>>>>>> 1672aae (completed)
     renderSeats();
     updateSummary();
 </script>
